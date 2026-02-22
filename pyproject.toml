@@ -1,12 +1,12 @@
 [project]
 name = "chuk-mcp-open-meteo"
-version = "1.0.1"
+version = "1.0.3"
 description = "Comprehensive MCP server for Open-Meteo weather data - the best weather MCP server"
 readme = "README.md"
 license = { text = "Apache-2.0" }
 requires-python = ">=3.11"
 dependencies = [
-    "chuk-mcp-server>=0.8",
+    "chuk-mcp-server>=0.23.4",
     "httpx>=0.27.0",
     "pydantic>=2.0.0",
 ]
