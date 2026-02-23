@@ -1,6 +1,6 @@
 [project]
 name = "chuk-mcp-open-meteo"
-version = "1.0.4"
+version = "1.0.5"
 description = "Comprehensive MCP server for Open-Meteo weather data - the best weather MCP server"
 readme = "README.md"
 license = { text = "Apache-2.0" }
@@ -28,6 +28,9 @@ chuk-mcp-open-meteo = "chuk_mcp_open_meteo.server:main"
 [build-system]
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["src"]
 
 [tool.black]
 line-length = 100
