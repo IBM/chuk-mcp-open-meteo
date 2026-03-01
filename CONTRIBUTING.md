@@ -233,16 +233,21 @@ chuk-mcp-open-meteo/
 ├── src/
 │   └── chuk_mcp_open_meteo/
 │       ├── __init__.py
-│       └── server.py          # Main server implementation
+│       ├── server.py          # Thin entry point — imports tools, runs server
+│       ├── models.py          # All Pydantic v2 response models
+│       ├── _constants.py      # API URLs, default parameters, weather codes
+│       ├── _batch.py          # Generic batch fetch helper
+│       └── tools/             # Domain-focused tool modules
+│           ├── forecast.py    # get_weather_forecast + batch_get_weather_forecasts
+│           ├── geocoding.py   # geocode_location + batch_geocode_locations
+│           ├── historical.py  # get_historical_weather + batch_get_historical_weather
+│           ├── air_quality.py # get_air_quality + batch_get_air_quality
+│           ├── marine.py      # get_marine_forecast + batch_get_marine_forecasts
+│           └── weather_codes.py # interpret_weather_code + batch_interpret_weather_codes
 ├── tests/                      # Test files
 ├── examples/                   # Usage examples
-│   ├── claude_desktop_config.json
-│   └── usage_examples.md
 ├── .github/
 │   └── workflows/             # CI/CD workflows
-│       ├── test.yml
-│       ├── release.yml
-│       └── publish.yml
 ├── pyproject.toml             # Project configuration
 ├── Makefile                   # Development commands
 ├── Dockerfile                 # Docker configuration
