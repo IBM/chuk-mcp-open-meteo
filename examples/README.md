@@ -6,7 +6,7 @@ This directory contains runnable examples and tests for the Open-Meteo MCP Serve
 
 ### Basic Usage (`example_basic.py`)
 
-Demonstrates basic usage of all 5 weather tools:
+Demonstrates basic usage of the weather tools:
 - Current weather lookup
 - Location geocoding
 - Weather forecasts
@@ -81,7 +81,7 @@ TEST: Server Initialization
 ✓ Initialization test passed
 
 TEST: List Tools
-✓ Found 5 tools
+✓ Found 12 tools
 ✓ List tools test passed
 
 TEST: Call Weather Forecast Tool

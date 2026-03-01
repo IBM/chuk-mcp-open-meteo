@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **New Tool**: `batch_interpret_weather_codes` - Interpret multiple WMO weather codes in a single call
+  - Comma-separated input: `"3,51,61,95"` → all interpretations at once
+  - Eliminates N sequential `interpret_weather_code` calls after batch forecasts
+  - Returns `BatchWeatherCodeResponse` Pydantic model
+  - Handles unknown codes and invalid input gracefully
 - **New Tool**: `interpret_weather_code` - Translate WMO weather codes into human-readable descriptions
   - Returns Pydantic `WeatherCodeInterpretation` model
   - Comprehensive documentation of all weather codes (0-99)

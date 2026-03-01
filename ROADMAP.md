@@ -33,7 +33,11 @@ This document outlines the development roadmap for chuk-mcp-open-meteo.
 - `batch_get_historical_weather` — historical data for multiple locations
   - All locations share the same date range in a single API call
   - Supports both hourly and daily variables
-- Batch Pydantic models for all 5 batch tools (10 new models total)
+- `batch_interpret_weather_codes` — interpret multiple WMO codes in a single call
+  - Comma-separated input: `"3,51,61,95"` → all interpretations at once
+  - Eliminates N sequential `interpret_weather_code` calls after batch forecasts
+  - Handles unknown codes and invalid input gracefully
+- Batch Pydantic models for all 6 batch tools (12 new models total)
 
 ### v1.2 — Architectural Refactor
 - Decomposed monolithic `server.py` (1155 lines) into focused modules

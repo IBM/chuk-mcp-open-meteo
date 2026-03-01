@@ -1,6 +1,6 @@
 [project]
 name = "chuk-mcp-open-meteo"
-version = "1.1"
+version = "1.2"
 description = "Comprehensive MCP server for Open-Meteo weather data - the best weather MCP server"
 readme = "README.md"
 license = { text = "Apache-2.0" }

@@ -69,6 +69,13 @@ Available tools from weather:
   - get_historical_weather: Get historical weather data from Open-Meteo Archive API
   - get_air_quality: Get air quality data and forecasts
   - get_marine_forecast: Get marine weather forecast
+  - interpret_weather_code: Interpret WMO weather codes
+  - batch_geocode_locations: Geocode multiple locations concurrently
+  - batch_get_weather_forecasts: Fetch forecasts for multiple locations
+  - batch_get_air_quality: Air quality for multiple locations
+  - batch_get_marine_forecasts: Marine conditions for multiple locations
+  - batch_get_historical_weather: Historical data for multiple locations
+  - batch_interpret_weather_codes: Interpret multiple weather codes at once
 ```
 
 ### 2. Start Interactive Chat

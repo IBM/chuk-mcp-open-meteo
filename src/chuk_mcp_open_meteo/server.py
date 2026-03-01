@@ -17,7 +17,7 @@ from .tools.forecast import batch_get_weather_forecasts, get_weather_forecast
 from .tools.geocoding import batch_geocode_locations, geocode_location
 from .tools.historical import batch_get_historical_weather, get_historical_weather
 from .tools.marine import batch_get_marine_forecasts, get_marine_forecast
-from .tools.weather_codes import interpret_weather_code
+from .tools.weather_codes import batch_interpret_weather_codes, interpret_weather_code
 
 # Configure logging
 # In STDIO mode, we need to be quiet to avoid polluting the JSON-RPC stream
@@ -33,6 +33,7 @@ __all__ = [
     "batch_get_historical_weather",
     "batch_get_marine_forecasts",
     "batch_get_weather_forecasts",
+    "batch_interpret_weather_codes",
     "geocode_location",
     "get_air_quality",
     "get_historical_weather",

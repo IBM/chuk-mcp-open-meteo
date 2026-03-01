@@ -8,6 +8,7 @@ from chuk_mcp_open_meteo.models import (
     BatchGeocodingResponse,
     BatchHistoricalWeatherResponse,
     BatchMarineForecastResponse,
+    BatchWeatherCodeResponse,
     BatchWeatherForecastResponse,
     GeocodingResponse,
     HistoricalWeather,
@@ -20,6 +21,7 @@ from chuk_mcp_open_meteo.server import (
     batch_get_historical_weather,
     batch_get_marine_forecasts,
     batch_get_weather_forecasts,
+    batch_interpret_weather_codes,
     get_air_quality,
     geocode_location,
     get_historical_weather,
@@ -501,6 +503,7 @@ def test_batch_imports():
     assert hasattr(server, "batch_get_air_quality")
     assert hasattr(server, "batch_get_marine_forecasts")
     assert hasattr(server, "batch_get_historical_weather")
+    assert hasattr(server, "batch_interpret_weather_codes")
 
     assert hasattr(models, "BatchGeocodingResponse")
     assert hasattr(models, "BatchGeocodingItem")
@@ -512,6 +515,8 @@ def test_batch_imports():
     assert hasattr(models, "BatchMarineForecastItem")
     assert hasattr(models, "BatchHistoricalWeatherResponse")
     assert hasattr(models, "BatchHistoricalWeatherItem")
+    assert hasattr(models, "BatchWeatherCodeResponse")
+    assert hasattr(models, "BatchWeatherCodeItem")
 
 
 # --- Batch Air Quality Tests ---
@@ -655,3 +660,75 @@ async def test_batch_get_historical_weather_single():
     assert result.total_locations == 1
     assert result.results[0].location_index == 0
     assert result.results[0].weather.hourly is not None
+
+
+# --- Batch Weather Code Tests ---
+
+
+@pytest.mark.asyncio
+async def test_batch_interpret_weather_codes_basic():
+    """Test batch interpretation of multiple weather codes."""
+    result = await batch_interpret_weather_codes(weather_codes="3,51,61,95")
+
+    assert isinstance(result, BatchWeatherCodeResponse)
+    assert result.total_codes == 4
+    assert len(result.results) == 4
+    # Verify known codes
+    assert result.results[0].code == 3
+    assert result.results[0].description == "Overcast"
+    assert result.results[0].severity == "cloudy"
+    assert result.results[1].code == 51
+    assert result.results[1].description == "Light drizzle"
+    assert result.results[1].severity == "drizzle"
+    assert result.results[2].code == 61
+    assert result.results[2].severity == "rain"
+    assert result.results[3].code == 95
+    assert result.results[3].severity == "thunderstorm"
+
+
+@pytest.mark.asyncio
+async def test_batch_interpret_weather_codes_single():
+    """Test batch interpretation with a single code."""
+    result = await batch_interpret_weather_codes(weather_codes="0")
+
+    assert isinstance(result, BatchWeatherCodeResponse)
+    assert result.total_codes == 1
+    assert result.results[0].code == 0
+    assert result.results[0].description == "Clear sky"
+    assert result.results[0].severity == "clear"
+
+
+@pytest.mark.asyncio
+async def test_batch_interpret_weather_codes_whitespace():
+    """Test that whitespace around codes is trimmed."""
+    result = await batch_interpret_weather_codes(weather_codes="0 , 3 , 45")
+
+    assert isinstance(result, BatchWeatherCodeResponse)
+    assert result.total_codes == 3
+    assert result.results[0].code == 0
+    assert result.results[1].code == 3
+    assert result.results[2].code == 45
+
+
+@pytest.mark.asyncio
+async def test_batch_interpret_weather_codes_empty():
+    """Test batch interpretation with empty input."""
+    result = await batch_interpret_weather_codes(weather_codes="")
+
+    assert isinstance(result, BatchWeatherCodeResponse)
+    assert result.total_codes == 0
+    assert len(result.results) == 0
+
+
+@pytest.mark.asyncio
+async def test_batch_interpret_weather_codes_unknown():
+    """Test batch interpretation with unknown codes."""
+    result = await batch_interpret_weather_codes(weather_codes="0,50,99")
+
+    assert isinstance(result, BatchWeatherCodeResponse)
+    assert result.total_codes == 3
+    assert result.results[0].severity == "clear"
+    # Code 50 is not in WMO codes
+    assert result.results[1].code == 50
+    assert result.results[1].severity == "unknown"
+    assert result.results[2].severity == "thunderstorm"

@@ -8,7 +8,7 @@
 
 ## Features
 
-This MCP server provides comprehensive access to Open-Meteo's weather APIs through 11 tools — 6 single-location tools and 5 batch tools for multi-location queries.
+This MCP server provides comprehensive access to Open-Meteo's weather APIs through 12 tools — 6 single-location tools and 6 batch tools for multi-location queries.
 
 **All tools return fully-typed Pydantic v2 models** for type safety, validation, and excellent IDE support. Every model includes rich, LLM-friendly field descriptions with interpretation guides for better AI understanding.
 
@@ -95,11 +95,18 @@ Historical data for multiple locations in one API call:
 - All locations share the same date range
 - Useful for climate comparisons across cities
 
+#### 12. Batch Weather Code Interpretation (`batch_interpret_weather_codes`)
+Interpret multiple WMO weather codes in a single call:
+- Comma-separated input: `"3,51,61,95"`
+- Eliminates multiple sequential `interpret_weather_code` calls
+- Ideal after batch forecasts return different codes per location
+
 ### Recommended Batch Workflow
 
 ```
 1. batch_geocode_locations("London,Paris,Berlin")  → coordinates
 2. batch_get_weather_forecasts(latitudes="51.51,48.86,52.52", longitudes="-0.13,2.35,13.41")  → weather
+3. batch_interpret_weather_codes("3,51,61")  → descriptions
 ```
 
 ## Installation
@@ -360,7 +367,7 @@ make test-cov          # Run tests with coverage
 make coverage-report   # Show coverage report
 
 # Run all tests including network tests (requires internet)
-pytest tests/          # Run all 35 tests
+pytest tests/          # Run all 40 tests
 pytest tests/ -m network  # Run only network tests
 ```
 

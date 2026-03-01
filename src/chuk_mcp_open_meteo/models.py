@@ -325,6 +325,26 @@ class WeatherCodeInterpretation(BaseModel):
 
 
 # Batch Response Models
+class BatchWeatherCodeItem(BaseModel):
+    """A single weather code interpretation within a batch response."""
+
+    code: int = Field(..., description="WMO weather code number (0-99)")
+    description: str = Field(..., description="Human-readable weather condition description")
+    severity: str = Field(
+        ...,
+        description="Weather severity category: clear, cloudy, fog, drizzle, rain, freezing, snow, showers, thunderstorm, unknown",
+    )
+
+
+class BatchWeatherCodeResponse(BaseModel):
+    """Response from batch weather code interpretation."""
+
+    results: list[BatchWeatherCodeItem] = Field(
+        ..., description="Interpretations for each weather code, in the same order as input"
+    )
+    total_codes: int = Field(..., description="Total number of codes submitted")
+
+
 class BatchGeocodingItem(BaseModel):
     """Result for a single location in a batch geocoding request."""
 

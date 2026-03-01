@@ -1,9 +1,13 @@
-"""Weather code interpretation tool."""
+"""Weather code interpretation tools."""
 
 from chuk_mcp_server import tool
 
 from .._constants import WEATHER_CODES
-from ..models import WeatherCodeInterpretation
+from ..models import (
+    BatchWeatherCodeItem,
+    BatchWeatherCodeResponse,
+    WeatherCodeInterpretation,
+)
 
 
 @tool
@@ -91,3 +95,61 @@ async def interpret_weather_code(weather_code: int) -> WeatherCodeInterpretation
             description=f"Unknown weather code: {weather_code}",
             severity="unknown",
         )
+
+
+@tool
+async def batch_interpret_weather_codes(weather_codes: str) -> BatchWeatherCodeResponse:
+    """Interpret multiple WMO weather codes in a single call.
+
+    Instead of calling interpret_weather_code multiple times (one per code),
+    pass all codes at once. This is much more efficient when processing
+    weather data for multiple locations.
+
+    Args:
+        weather_codes: Comma-separated WMO weather code integers (0-99).
+            Example: "3,51,61,95" or "0, 3, 45, 80"
+
+    Returns:
+        BatchWeatherCodeResponse: Pydantic model with:
+            - results: List of interpretations in same order as input
+            - total_codes: Number of codes processed
+
+    Example:
+        # After batch forecast returns codes for multiple cities:
+        result = await batch_interpret_weather_codes("3,51,61,95")
+        # Returns all interpretations in one call instead of 4 separate calls
+    """
+    codes = [c.strip() for c in weather_codes.split(",") if c.strip()]
+
+    items = []
+    for code_str in codes:
+        try:
+            code = int(code_str)
+        except ValueError:
+            items.append(
+                BatchWeatherCodeItem(
+                    code=-1,
+                    description=f"Invalid weather code: {code_str!r}",
+                    severity="unknown",
+                )
+            )
+            continue
+
+        if code in WEATHER_CODES:
+            items.append(
+                BatchWeatherCodeItem(
+                    code=code,
+                    description=WEATHER_CODES[code]["description"],
+                    severity=WEATHER_CODES[code]["severity"],
+                )
+            )
+        else:
+            items.append(
+                BatchWeatherCodeItem(
+                    code=code,
+                    description=f"Unknown weather code: {code}",
+                    severity="unknown",
+                )
+            )
+
+    return BatchWeatherCodeResponse(results=items, total_codes=len(items))
