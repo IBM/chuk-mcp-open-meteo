@@ -381,6 +381,7 @@ def test_main_function_http():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_geocode_locations_basic():
     """Test batch geocoding with multiple cities."""
     result = await batch_geocode_locations(names="London,Paris,Berlin")
@@ -415,6 +416,7 @@ async def test_batch_geocode_locations_empty():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_geocode_locations_partial_failure():
     """Test batch geocoding where some locations are not found."""
     result = await batch_geocode_locations(names="London,XyzNotARealPlace12345,Paris")
@@ -431,6 +433,7 @@ async def test_batch_geocode_locations_partial_failure():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_geocode_locations_whitespace():
     """Test that whitespace around commas is trimmed."""
     result = await batch_geocode_locations(names="London , Paris , Berlin")
@@ -443,6 +446,7 @@ async def test_batch_geocode_locations_whitespace():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_get_weather_forecasts_basic():
     """Test batch weather forecasts for multiple locations."""
     # London, Paris, Berlin
@@ -462,6 +466,7 @@ async def test_batch_get_weather_forecasts_basic():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_get_weather_forecasts_single():
     """Test batch forecast with single location (edge case)."""
     result = await batch_get_weather_forecasts(
@@ -477,6 +482,7 @@ async def test_batch_get_weather_forecasts_single():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_get_weather_forecasts_with_daily():
     """Test batch forecast with daily parameters."""
     result = await batch_get_weather_forecasts(
@@ -523,6 +529,7 @@ def test_batch_imports():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_get_air_quality_basic():
     """Test batch air quality for multiple locations."""
     # London, Paris, Berlin
@@ -540,6 +547,7 @@ async def test_batch_get_air_quality_basic():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_get_air_quality_single():
     """Test batch air quality with single location."""
     result = await batch_get_air_quality(
@@ -555,6 +563,7 @@ async def test_batch_get_air_quality_single():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_get_air_quality_custom_hourly():
     """Test batch air quality with custom hourly variables."""
     result = await batch_get_air_quality(
@@ -574,6 +583,7 @@ async def test_batch_get_air_quality_custom_hourly():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_get_marine_forecasts_basic():
     """Test batch marine forecasts for multiple ocean locations."""
     # Hawaii, mid-Atlantic
@@ -592,6 +602,7 @@ async def test_batch_get_marine_forecasts_basic():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_get_marine_forecasts_single():
     """Test batch marine forecast with single location."""
     result = await batch_get_marine_forecasts(
@@ -605,6 +616,7 @@ async def test_batch_get_marine_forecasts_single():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_get_marine_forecasts_with_daily():
     """Test batch marine forecast with daily parameters."""
     result = await batch_get_marine_forecasts(
@@ -625,6 +637,7 @@ async def test_batch_get_marine_forecasts_with_daily():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_get_historical_weather_basic():
     """Test batch historical weather for multiple locations."""
     # London, Paris
@@ -646,6 +659,7 @@ async def test_batch_get_historical_weather_basic():
 
 
 @pytest.mark.asyncio
+@pytest.mark.network
 async def test_batch_get_historical_weather_single():
     """Test batch historical weather with single location."""
     result = await batch_get_historical_weather(
