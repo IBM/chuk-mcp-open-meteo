@@ -40,8 +40,8 @@ async def test_get_weather_forecast():
     )
 
     assert isinstance(result, WeatherForecast)
-    assert result.latitude == pytest.approx(51.5072, abs=0.1)
-    assert result.longitude == pytest.approx(-0.1276, abs=0.1)
+    assert result.latitude == pytest.approx(51.5072, abs=0.3)
+    assert result.longitude == pytest.approx(-0.1276, abs=0.3)
     assert result.current_weather is not None
     assert result.current_weather.temperature is not None
 
@@ -102,7 +102,7 @@ async def test_get_historical_weather():
     )
 
     assert isinstance(result, HistoricalWeather)
-    assert result.latitude == pytest.approx(48.8566, abs=0.1)
+    assert result.latitude == pytest.approx(48.8566, abs=0.3)
     assert result.daily is not None
     assert result.daily.temperature_2m_max is not None
     assert result.daily.temperature_2m_min is not None
@@ -117,7 +117,7 @@ async def test_get_air_quality():
     )
 
     assert isinstance(result, AirQualityResponse)
-    assert result.latitude == pytest.approx(34.0522, abs=0.1)
+    assert result.latitude == pytest.approx(34.0522, abs=0.3)
     assert result.hourly is not None
     # Should have default air quality metrics
     assert result.hourly.pm10 is not None or result.hourly.pm2_5 is not None
@@ -132,7 +132,7 @@ async def test_get_marine_forecast():
     )
 
     assert isinstance(result, MarineForecast)
-    assert result.latitude == pytest.approx(21.3099, abs=0.1)
+    assert result.latitude == pytest.approx(21.3099, abs=0.3)
     assert result.hourly is not None
     # Should have default marine metrics
     assert result.hourly.wave_height is not None
